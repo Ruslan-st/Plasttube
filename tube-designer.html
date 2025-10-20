@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plasttube — Kozmetik Tüp Tasarımı</title>
+  <meta name="description" content="Plasttube — Türkiye'de yüksek kaliteli kozmetik tüp üretimi. Tüp tasarımcısı ile hızlı görselleştirme ve özet." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1: #f4f9fb;
+      --bg-2: linear-gradient(135deg,#f7f3ff 0%, #e6f7fb 50%, #fff 100%);
+      --brand-1: #0f3d6b; /* deep navy */
+      --brand-2: #00a3c4; /* cyan */
+      --accent: #ff7ab6; /* warm pink */
+      --muted: #6b7280;
+      --card: rgba(255,255,255,0.9);
+      --glass-shadow: 0 8px 30px rgba(12, 40, 80, 0.08);
+      --radius: 16px;
+      --transition: 300ms cubic-bezier(.2,.9,.3,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: var(--bg-1);
+      color: #0b1220;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* Page wrapper */
+    .app{
+      width:100%;
+      max-width:1200px;
+      background:var(--card);
+      border-radius:24px;
+      box-shadow:var(--glass-shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 520px 1fr;
+      gap:30px;
+      padding:28px;
+      align-items:start;
+    }
+
+    /* Branding */
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:6px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--brand-1),var(--brand-2));
+      color:white;font-weight:700;font-size:18px;
+      box-shadow:0 6px 18px rgba(10,30,60,0.12);
+    }
+    .brand h2{margin:0;font-family:'Playfair Display';font-size:20px;color:var(--brand-1)}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Left column: controls */
+    .controls{
+      padding:14px 8px 18px 8px;
+    }
+
+    h1.hero{
+      font-family:'Playfair Display';font-size:28px;margin:6px 0 18px 0;color:var(--brand-1)
+    }
+    .lead{color:var(--muted);font-size:13px;margin-bottom:14px}
+
+    .form {
+      display:grid;gap:12px;
+    }
+
+    .field{
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(250,250,250,0.85));
+      border-radius:12px;padding:12px;border:1px solid rgba(10,20,40,0.03);
+      transition:box-shadow var(--transition), transform var(--transition);
+    }
+    .field:focus-within{box-shadow:0 10px 30px rgba(14,60,100,0.06);transform:translateY(-4px)}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:8px}
+    select,input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(10,20,40,0.06);font-size:14px}
+
+    /* Color pickers */
+    .row{display:flex;gap:12px}
+    .col{flex:1}
+
+    .swatches{display:flex;gap:8px;align-items:center}
+    .swatch{width:36px;height:36px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
+
+    /* Toggles */
+    .toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+    .switch{width:46px;height:26px;background:#e6eef7;border-radius:20px;padding:3px;display:inline-block;position:relative}
+    .knob{width:20px;height:20px;background:white;border-radius:50%;position:absolute;top:3px;left:3px;box-shadow:0 4px 10px rgba(10,30,60,0.12);transition:all var(--transition)}
+    .switch.on{background:linear-gradient(90deg,var(--brand-2),var(--accent))}
+    .switch.on .knob{left:23px}
+
+    /* Right column: visual */
+    .visual{
+      padding:18px 8px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:18px
+    }
+    .visual-canvas{width:100%;max-width:520px;border-radius:20px;padding:22px;background:linear-gradient(180deg,#ffffff, #f8fbff);box-shadow:0 12px 40px rgba(12,30,80,0.06);display:flex;gap:18px;align-items:center}
+
+    /* SVG tube area */
+    .tube-wrap{width:220px;height:420px;display:flex;align-items:center;justify-content:center}
+
+    /* Summary card */
+    .summary{
+      width:100%;max-width:520px;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,255,0.95));
+      border-radius:14px;padding:18px;border:1px solid rgba(10,20,40,0.03);
+      box-shadow:0 6px 20px rgba(10,20,40,0.04);
+    }
+    .summary h3{margin:0 0 12px 0;font-size:16px;color:var(--brand-1)}
+    .summary table{width:100%;border-collapse:collapse;font-size:14px}
+    .summary th{color:var(--muted);text-align:left;font-weight:600;padding:8px 0;width:38%}
+    .summary td{padding:8px 0}
+
+    /* CTA */
+    .cta{display:flex;gap:12px;margin-top:10px}
+    .btn{padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:600}
+    .btn.primary{background:linear-gradient(90deg,var(--brand-2),var(--brand-1));color:white;box-shadow:0 8px 22px rgba(10,30,60,0.12)}
+    .btn.ghost{background:transparent;border:1px solid rgba(10,20,40,0.06)}
+
+    /* Footer */
+    .foot{font-size:12px;color:var(--muted);margin-top:12px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .app{grid-template-columns:1fr;max-width:960px;padding:18px}
+      .visual-canvas{flex-direction:column}
+      .tube-wrap{transform:scale(0.95);height:360px}
+    }
+
+    /* Tiny helpers */
+    .muted{color:var(--muted);font-size:13px}
+
+  </style>
+</head>
+
+<body>
+  <div class="app" role="main" aria-label="Plasttube Tüp Tasarımcısı">
+    <div class="controls" aria-hidden="false">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PT</div>
+        <div>
+          <h2>Plasttube</h2>
+          <p>Türkiye'de yüksek kaliteli kozmetik tüp üretimi</p>
+        </div>
+      </div>
+
+      <h1 class="hero">Tüp Tasarla — Hızlı Görselleştirme</h1>
+      <p class="lead">Renk, çap, kapak ve ekstra seçenekleri seçerek canlı önizlemeyi güncelleyin. Bu tasarım doğrudan teklif/üretim ekibimize gönderilebilir.</p>
+
+      <form class="form" onsubmit="return false;" aria-label="Tasarım formu">
+
+        <div class="field">
+          <label for="material">Malzeme</label>
+          <select id="material">
+            <option value="Plastik">Plastik (PE)</option>
+            <option value="Lamine">Lamine</option>
+          </select>
+        </div>
+
+        <div class="field" id="lamineField" style="display:none">
+          <label for="lamineType">Lamine Türü</label>
+          <select id="lamineType">
+            <option value="">Seçiniz</option>
+            <option value="ABL">ABL</option>
+            <option value="PBL">PBL</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col field">
+            <label for="cap">Çap (mm)</label>
+            <select id="cap">
+              <option value="">Seçiniz</option>
+              <option value="22">22 mm</option>
+              <option value="30">30 mm</option>
+              <option value="35">35 mm</option>
+              <option value="40">40 mm</option>
+            </select>
+          </div>
+
+          <div class="col field">
+            <label for="ml">Hacim (ml)</label>
+            <select id="ml">
+              <option value="">Önce çap seçin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col field">
+            <label>Tüp Rengi</label>
+            <div class="swatches" id="tubeSwatches">
+              <div class="swatch" data-color="#ffffff" style="background:#ffffff"></div>
+              <div class="swatch" data-color="#90e0ef" style="background:#90e0ef"></div>
+              <div class="swatch" data-color="#ffb703" style="background:#ffb703"></div>
+              <div class="swatch" data-color="#ff6d6d" style="background:#ff6d6d"></div>
+              <div class="swatch" data-color="#4caf50" style="background:#4caf50"></div>
+            </div>
+          </div>
+
+          <div class="col field">
+            <label>Kapak Rengi</label>
+            <div class="swatches" id="capSwatches">
+              <div class="swatch" data-color="#0077b6" style="background:#0077b6"></div>
+              <div class="swatch" data-color="#000000" style="background:#000000"></div>
+              <div class="swatch" data-color="#ffffff" style="background:#ffffff;border:2px solid rgba(0,0,0,0.08)"></div>
+              <div class="swatch" data-color="#ff6d6d" style="background:#ff6d6d"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col field">
+            <label for="capType">Kapak Türü</label>
+            <select id="capType">
+              <option value="Standart">Standart</option>
+              <option value="Flip Top">Flip Top</option>
+            </select>
+          </div>
+
+          <div class="col field">
+            <label>Seçenekler</label>
+            <div style="display:flex;gap:12px;align-items:center">
+              <div class="toggle" tabindex="0" role="button" id="printToggle" aria-pressed="false">
+                <div class="switch" id="printSwitch"><div class="knob"></div></div>
+                <div class="muted">Baskı</div>
+              </div>
+              <div class="toggle" tabindex="0" role="button" id="lakToggle" aria-pressed="false">
+                <div class="switch" id="lakSwitch"><div class="knob"></div></div>
+                <div class="muted">Lak</div>
+              </div>
+              <div class="toggle" tabindex="0" role="button" id="dolumToggle" aria-pressed="false">
+                <div class="switch" id="dolumSwitch"><div class="knob"></div></div>
+                <div class="muted">Dolum</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" style="display:flex;align-items:center;justify-content:space-between">
+          <div class="muted">Tahmini Uzunluk: <strong id="estLength">--</strong></div>
+          <div>
+            <button class="btn ghost" id="resetBtn" type="button">Sıfırla</button>
+            <button class="btn primary" id="sendBtn" type="button">Teklif İste</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="foot">Plasttube © <span id="year"></span> — İletişim için: <span class="muted">info@plasttube.com</span></div>
+    </div>
+
+    <div class="visual">
+      <div class="visual-canvas" aria-live="polite">
+        <div class="tube-wrap" role="img" aria-label="Tüp önizleme">
+          <!-- SVG tube (vector) so color fills are instant and crisp -->
+          <svg id="tubeSvg" width="220" height="420" viewBox="0 0 220 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="tubeGrad" x1="0" x2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+                <stop offset="100%" stop-color="#e6f7fb" stop-opacity="1" />
+              </linearGradient>
+            </defs>
+
+            <!-- cap -->
+            <rect id="svgCap" x="70" y="18" rx="18" ry="18" width="80" height="32" fill="#0077b6" stroke="rgba(0,0,0,0.06)" />
+
+            <!-- neck -->
+            <rect x="96" y="40" width="28" height="18" rx="4" fill="#f5f5f5" />
+
+            <!-- body -->
+            <path id="svgBody" d="M40 60 q0 10 18 14 l124 0 q18 -4 18 -14 v260 q0 22 -18 34 l-124 0 q-18 -12 -18 -34 z" fill="url(#tubeGrad)" stroke="rgba(10,20,30,0.04)"/>
+
+            <!-- shadow bottom -->
+            <ellipse cx="110" cy="364" rx="60" ry="12" fill="rgba(6,18,30,0.06)" />
+
+            <!-- print placeholder -->
+            <g id="labelGroup" opacity="0.98">
+              <rect id="labelBg" x="58" y="120" rx="8" ry="8" width="104" height="92" fill="rgba(255,255,255,0.15)" />
+              <text id="labelTxt" x="110" y="160" font-family="Inter" font-size="14" text-anchor="middle" fill="#0f3d6b">PLASTTUBE</text>
+            </g>
+          </svg>
+        </div>
+
+        <div style="flex:1;min-width:220px;">
+          <div class="summary" aria-hidden="false">
+            <h3>Tasarım Özeti</h3>
+            <table>
+              <tr><th>Malzeme</th><td id="sMaterial">--</td></tr>
+              <tr><th>Lamine Türü</th><td id="sLamine">--</td></tr>
+              <tr><th>Çap</th><td id="sCap">--</td></tr>
+              <tr><th>Hacim</th><td id="sML">--</td></tr>
+              <tr><th>Uzunluk (mm)</th><td id="sLength">--</td></tr>
+              <tr><th>Tüp Rengi</th><td id="sTubeColor">--</td></tr>
+              <tr><th>Kapak Türü</th><td id="sCapType">--</td></tr>
+              <tr><th>Kapak Rengi</th><td id="sCapColor">--</td></tr>
+              <tr><th>Baskı</th><td id="sPrint">--</td></tr>
+              <tr><th>Lak</th><td id="sLak">--</td></tr>
+              <tr><th>Dolum</th><td id="sDolum">--</td></tr>
+            </table>
+
+            <div class="cta">
+              <button class="btn primary" id="exportPng">PNG Olarak Kaydet</button>
+              <button class="btn ghost" id="downloadSpec">Teknik PDF</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ---------- Data ----------
+    const data = {
+      22: { 10: 67, 15: 76, 20: 91 },
+      30: { 30: 80, 40: 90, 50: 110, 60: 125, 70: 150 },
+      35: { 35: 80, 50: 90, 60: 100, 75: 120, 80: 125, 100: 150 },
+      40: { 50: 90, 75: 110, 80: 115, 100: 130, 125: 150 }
+    };
+
+    // ---------- Elements ----------
+    const els = {
+      material: document.getElementById('material'),
+      lamineField: document.getElementById('lamineField'),
+      lamineType: document.getElementById('lamineType'),
+      cap: document.getElementById('cap'),
+      ml: document.getElementById('ml'),
+      tubeSwatches: document.getElementById('tubeSwatches'),
+      capSwatches: document.getElementById('capSwatches'),
+      capType: document.getElementById('capType'),
+      printSwitch: document.getElementById('printSwitch'),
+      lakSwitch: document.getElementById('lakSwitch'),
+      dolumSwitch: document.getElementById('dolumSwitch'),
+      estLength: document.getElementById('estLength'),
+      resetBtn: document.getElementById('resetBtn'),
+      sendBtn: document.getElementById('sendBtn'),
+      tubeSvg: document.getElementById('tubeSvg'),
+      svgBody: document.getElementById('svgBody'),
+      svgCap: document.getElementById('svgCap'),
+      labelTxt: document.getElementById('labelTxt'),
+      labelBg: document.getElementById('labelBg'),
+      sMaterial: document.getElementById('sMaterial'),
+      sLamine: document.getElementById('sLamine'),
+      sCap: document.getElementById('sCap'),
+      sML: document.getElementById('sML'),
+      sLength: document.getElementById('sLength'),
+      sTubeColor: document.getElementById('sTubeColor'),
+      sCapType: document.getElementById('sCapType'),
+      sCapColor: document.getElementById('sCapColor'),
+      sPrint: document.getElementById('sPrint'),
+      sLak: document.getElementById('sLak'),
+      sDolum: document.getElementById('sDolum'),
+      year: document.getElementById('year')
+    };
+
+    // Set year
+    els.year.textContent = new Date().getFullYear();
+
+    // ---------- Helpers ----------
+    function fillSelectCapVolumes(capVal){
+      els.ml.innerHTML = '<option value="">Seçiniz</option>';
+      if(!capVal || !data[capVal]){ els.ml.innerHTML = '<option value="">Önce çap seçin</option>'; return }
+      for(const ml in data[capVal]){
+        const opt = document.createElement('option');opt.value = ml;opt.textContent = ml + ' ml';els.ml.appendChild(opt);
+      }
+    }
+
+    function estimateLength(capVal, mlVal){
+      if(capVal && mlVal && data[capVal] && data[capVal][mlVal]) return data[capVal][mlVal] + ' mm';
+      return '--';
+    }
+
+    // initial state
+    let state = {
+      material: 'Plastik',
+      lamine: '',
+      cap: '',
+      ml: '',
+      tubeColor: '#ffffff',
+      capColor: '#0077b6',
+      capType: 'Standart',
+      print: false,
+      lak: false,
+      dolum: false
+    };
+
+    // ---------- Interactions ----------
+    els.material.addEventListener('change', (e)=>{
+      state.material = e.target.value;
+      els.lamineField.style.display = state.material === 'Lamine' ? 'block' : 'none';
+      updateSummary();
+    });
+
+    els.lamineType.addEventListener('change',(e)=>{ state.lamine = e.target.value; updateSummary(); })
+    els.cap.addEventListener('change',(e)=>{ state.cap = e.target.value; fillSelectCapVolumes(state.cap); updatePreview(); updateSummary(); })
+    els.ml.addEventListener('change',(e)=>{ state.ml = e.target.value; updatePreview(); updateSummary(); })
+    els.capType.addEventListener('change',(e)=>{ state.capType = e.target.value; updateSummary(); updateCapPreview(); })
+
+    // swatches
+    document.querySelectorAll('#tubeSwatches .swatch').forEach(s => s.addEventListener('click', (e)=>{
+      const c = e.currentTarget.getAttribute('data-color'); state.tubeColor = c; updatePreview(); updateSummary();
+    }));
+    document.querySelectorAll('#capSwatches .swatch').forEach(s => s.addEventListener('click', (e)=>{
+      const c = e.currentTarget.getAttribute('data-color'); state.capColor = c; updateCapPreview(); updateSummary();
+    }));
+
+    // toggles
+    function toggleSwitch(el){ el.classList.toggle('on'); return el.classList.contains('on') }
+    document.getElementById('printToggle').addEventListener('click', ()=>{ state.print = toggleSwitch(els.printSwitch); updatePrintPreview(); updateSummary(); });
+    document.getElementById('lakToggle').addEventListener('click', ()=>{ state.lak = toggleSwitch(els.lakSwitch); updateSummary(); });
+    document.getElementById('dolumToggle').addEventListener('click', ()=>{ state.dolum = toggleSwitch(els.dolumSwitch); updateSummary(); });
+
+    // keyboard accessibility for toggles
+    ['printToggle','lakToggle','dolumToggle'].forEach(id=>{
+      const node = document.getElementById(id);
+      node.addEventListener('keydown', (e)=>{ if(e.key===' '||e.key==='Enter'){e.preventDefault(); node.click();}})
+    })
+
+    // reset
+    els.resetBtn.addEventListener('click', ()=>{ resetAll(); })
+
+    // send (simulate)
+    els.sendBtn.addEventListener('click', ()=>{
+      const payload = {...state};
+      alert('Teklif isteği gönderildi!\nDetaylar konsola kopyalandı.');
+      console.log('Teklif isteği (Plasttube):', payload);
+    })
+
+    // export PNG (use SVG to PNG via canvas)
+    document.getElementById('exportPng').addEventListener('click', async()=>{
+      const svg = document.getElementById('tubeSvg');
+      const xml = new XMLSerializer().serializeToString(svg);
+      const svg64 = btoa(unescape(encodeURIComponent(xml)));
+      const imgSrc = 'data:image/svg+xml;base64,' + svg64;
+
+      const img = new Image(); img.onload = ()=>{
+        const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; const ctx = c.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(img,0,0);
+        const a = document.createElement('a'); a.download = 'plasttube_design.png'; a.href = c.toDataURL('image/png'); a.click();
+      };
+      img.src = imgSrc;
+    })
+
+    // download spec (placeholder)
+    document.getElementById('downloadSpec').addEventListener('click', ()=>{
+      alert('Teknik PDF oluşturma özelliği yakında eklenecek — şu an örnek olarak teklif talebinde bulunabilirsiniz.');
+    })
+
+    // ---------- Preview updates ----------
+    function updatePreview(){
+      // body color: set gradient stops to be based on color
+      const body = els.svgBody;
+      const cap = els.svgCap;
+      // set simple fill for body using chosen color with subtle gradient
+      const col = state.tubeColor || '#ffffff';
+      // if white, keep subtle gradient; if colored, create gradient via CSS-ish trick
+      if(col.toLowerCase()==='#ffffff'){
+        body.setAttribute('fill','url(#tubeGrad)');
+      } else {
+        // create a simple linear gradient using stops inline
+        const gradId = 'g' + Math.random().toString(36).slice(2,8);
+        const defs = els.tubeSvg.querySelector('defs');
+        const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient'); grad.id = gradId; grad.setAttribute('x1','0'); grad.setAttribute('x2','1');
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg','stop'); stop1.setAttribute('offset','0%'); stop1.setAttribute('stop-color',col);
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg','stop'); stop2.setAttribute('offset','100%'); stop2.setAttribute('stop-color',shadeColor(col,-18));
+        grad.appendChild(stop1); grad.appendChild(stop2);
+        // remove previous dynamic grads
+        Array.from(defs.querySelectorAll('linearGradient[id^="g"]')).forEach(n=>n.remove());
+        defs.appendChild(grad);
+        body.setAttribute('fill','url(#'+gradId+')');
+      }
+
+      // cap color
+      els.svgCap.setAttribute('fill', state.capColor || '#0077b6');
+
+      // update label visibility when print is on
+      updatePrintPreview();
+
+      // set estimated length
+      els.estLength.textContent = estimateLength(state.cap, state.ml);
+
+      updateSummary();
+    }
+
+    function updateCapPreview(){ els.svgCap.setAttribute('fill', state.capColor || '#0077b6'); }
+
+    function updatePrintPreview(){
+      // if print on, show label; else hide
+      const labelGroup = document.getElementById('labelGroup');
+      if(state.print){ labelGroup.style.display = 'block'; labelTxt.textContent = 'PLASTTUBE'; labelBg.setAttribute('fill','rgba(255,255,255,0.12)'); }
+      else { labelGroup.style.display = 'none'; }
+    }
+
+    function updateSummary(){
+      els.sMaterial.textContent = state.material || '--';
+      els.sLamine.textContent = state.lamine || '--';
+      els.sCap.textContent = state.cap ? state.cap + ' mm' : '--';
+      els.sML.textContent = state.ml ? state.ml + ' ml' : '--';
+      els.sLength.textContent = estimateLength(state.cap,state.ml);
+      els.sTubeColor.textContent = colorNameOrHex(state.tubeColor || '#ffffff');
+      els.sCapType.textContent = state.capType || '--';
+      els.sCapColor.textContent = colorNameOrHex(state.capColor || '#0077b6');
+      els.sPrint.textContent = state.print ? 'Evet' : 'Hayır';
+      els.sLak.textContent = state.lak ? 'Evet' : 'Hayır';
+      els.sDolum.textContent = state.dolum ? 'Evet' : 'Hayır';
+    }
+
+    function resetAll(){
+      state = {material:'Plastik',lamine:'',cap:'',ml:'',tubeColor:'#ffffff',capColor:'#0077b6',capType:'Standart',print:false,lak:false,dolum:false};
+      // UI resets
+      els.material.value = 'Plastik'; els.lamineType.value = ''; els.cap.value=''; els.ml.innerHTML = '<option value="">Önce çap seçin</option>'; els.capType.value='Standart';
+      // switches off
+      els.printSwitch.classList.remove('on'); els.lakSwitch.classList.remove('on'); els.dolumSwitch.classList.remove('on');
+      // svg reset
+      updatePreview();
+    }
+
+    // small util: shade color (hex) by percent
+    function shadeColor(hex, percent) {
+      // hex like #RRGGBB
+      const h = hex.replace('#',''); const num = parseInt(h,16);
+      let r = (num >> 16) + percent; if(r>255) r=255; if(r<0) r=0;
+      let g = ((num >> 8) & 0x00FF) + percent; if(g>255) g=255; if(g<0) g=0;
+      let b = (num & 0x0000FF) + percent; if(b>255) b=255; if(b<0) b=0;
+      return '#' + (r<<16 | g<<8 | b).toString(16).padStart(6,'0');
+    }
+
+    function colorNameOrHex(hex){
+      const map = {'#ffffff':'Beyaz','#90e0ef':'Açık Mavi','#ffb703':'Sarı','#ff6d6d':'Kırmızı','#4caf50':'Yeşil','#0077b6':'Mavi','#000000':'Siyah'};
+      return map[hex.toLowerCase()] || hex;
+    }
+
+    // init
+    updatePreview(); updateSummary();
+
+  </script>
+
+</body>
+
+</html>

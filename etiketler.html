@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etiketler Kataloğu | Plasttube</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --font-primary: 'Montserrat', sans-serif;
+      --color-background: #f0f2f5;
+      --color-text: #555;
+      --color-heading: #2c3e50;
+      --color-primary: #007bff;
+      --color-card-shadow: rgba(0, 0, 0, 0.08);
+      --header-height: 80px;
+      --spacing-unit: 1rem;
+      --grid-gap: 3rem;
+      --transition-speed: 0.3s;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background-color: var(--color-background);
+      background-image: url(resimler/zemin.jpeg);
+      color: var(--color-text);
+      line-height: 1.6;
+      padding-top: var(--header-height);
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .site-header {
+      background-color: #ffffff;
+      height: var(--header-height);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 75%;
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 calc(var(--spacing-unit) * 2);
+      
+    }
+
+    .logo a {
+      text-decoration: none;
+    }
+
+    .logo img {
+      max-height: 50px;
+      margin-top: 2em;
+      width: auto;
+      display: block;
+    }
+
+    .main-menu {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .main-menu a {
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 600;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color var(--transition-speed) ease;
+    }
+
+    .main-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-primary);
+      transform: scaleX(0);
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .main-menu li.current-menu-item>a,
+    .main-menu a:hover {
+      color: var(--color-primary);
+    }
+
+    .main-menu li.current-menu-item>a::after,
+    .main-menu a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 3rem auto;
+      padding: 0 calc(var(--spacing-unit) * 2);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--color-heading);
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--grid-gap);
+    }
+
+    .card {
+      flex: 0 1 calc(50% - (var(--grid-gap) / 2));
+      max-width: 650px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 6px 18px var(--color-card-shadow);
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      cursor: pointer;
+    }
+
+    .card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-img {
+      flex-shrink: 0;
+      width: 45%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .card-body {
+      flex-grow: 1;
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-weight: 700;
+      color: var(--color-heading);
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-kuşe {
+      background-color: #fff0f0;
+      border-radius: 20px;
+      border-top-right-radius: 40em;
+      border-bottom-right-radius: 40em;
+    }
+
+    .card-pp {
+      background-color: #f0fff0;
+      border-radius: 3em;
+      border-top-left-radius: 40em;
+      border-bottom-left-radius: 40em;
+    }
+
+    .card-metalize {
+      background-color: #f0f0ff;
+      border-radius: 2.5em;
+      border-top-right-radius: 40em;
+      border-bottom-right-radius: 40em;
+    }
+
+    .card-termal {
+      background-color: #fffaf0;
+      border-radius: 3em;
+      border-top-left-radius: 40em;
+      border-bottom-left-radius: 40em;
+    }
+
+    .card-vellum {
+      background-color: #f0ffff;
+      border-radius: 2em;
+      border-top-right-radius: 40em;
+      border-bottom-right-radius: 40em;
+    }
+
+    .card-clear {
+      background-color: #fff0ff;
+      border-radius: 2.5em;
+      border-top-left-radius: 40em;
+      border-bottom-left-radius: 40em;
+    }
+
+    .card-sarap {
+      background-color: #fffbe0;
+      border-radius: 3em;
+      border-top-right-radius: 40em;
+      border-bottom-right-radius: 40em;
+    }
+
+    .card-silver {
+      background-color: #f5f5f5;
+      border-radius: 2em;
+      border-top-left-radius: 40em;
+      border-bottom-left-radius: 40em;
+    }
+
+    .card-data {
+      background-color: #e0f5ff;
+      border-radius: 2.5em;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: #fff4cb;
+      border-radius: 15px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.is-visible .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #000;
+    }
+
+    .modal-body {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .modal-img {
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .modal-img img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .modal-text {
+      flex: 1.5;
+    }
+
+    .modal-text h2 {
+      font-size: 2rem;
+      color: var(--color-heading);
+      margin-bottom: 1rem;
+    }
+
+    .modal-text p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .modal-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal-text h3 {
+      font-size: 1.3rem;
+      color: var(--color-heading);
+      font-weight: 700;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .modal-body {
+        flex-direction: column;
+      }
+
+      .modal-img {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .menu-toggle {
+        display: block;
+        z-index: 1001;
+      }
+
+      .main-menu {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background-color: #fff;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .main-menu.is-open {
+        transform: translateX(0);
+      }
+
+      .card,
+      .card:nth-child(even) {
+        flex-direction: column;
+        flex-basis: 100%;
+        max-width: 550px;
+      }
+
+      .card-img {
+        width: 100%;
+        height: 220px;
+      }
+
+      .card-body {
+        padding: 1.5rem 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="resimler/Logo.jpeg" alt="Plasttube Logo">
+        </a>
+      </div>
+      <nav>
+        <button class="menu-toggle" aria-label="Toggle menu">
+          <span class="hamburger"></span>
+        </button>
+        <ul id="menu-anamenu" class="main-menu">
+          <li class="menu-item"> <a href="index.html">Anasayfa</a> </li>
+          <li class="menu-item"> <a href="hakkimizda.html">Hakkımızda</a> </li>
+          <li class="menu-item"> <a href="PBL.html">Plastik Lamine Tüp</a> </li>
+          <li class="menu-item"> <a href="ABL.html">Aliminyum Bariyer Tüp</a> </li>
+          <li class="menu-item"> <a href="PE.html">Poletilen Tüp</a> </li>
+          <li class="menu-item current-menu-item"> <a href="etiketler.html">Etiketler</a> </li>
+          <li class="menu-item"> <a href="iletisim.html">İletişim</a> </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Kendinden Yapışkanlı Etiketler</h1>
+    <section class="grid">
+      <article class="card card-kuşe" data-title="Kuşe Etiket" data-img="resimler/Kuse.jpg"
+        data-desc="&lt;p&gt;Kuşe etiket, yüzeyi özel bir kaplama ile kaplanmış pürüzsüz kağıttan üretilen bir etiket türüdür. Bu kaplama sayesinde etiketin yüzeyi parlak ve kaygan bir hale gelir, böylece baskı kalitesi oldukça yüksek olur. Renkler daha canlı, detaylar daha keskin görünür; özellikle logo, yazı ve barkod gibi ince detayların net şekilde basılmasını sağlar.&lt;/p&gt;&lt;h3&gt;Baskı Yöntemi ve Kalitesi&lt;/h3&gt;&lt;p&gt;Bu etiket türü termal transfer (ribonlu) baskı yöntemiyle kullanılır. Ribon sayesinde mürekkep, ısı yoluyla etikete aktarılır ve bu da daha dayanıklı, net ve okunabilir baskılar elde edilmesini sağlar. Bu nedenle kuşe etiketler, barkod okuyucular tarafından kolaylıkla taranabilir.&lt;/p&gt;&lt;h3&gt;Öne Çıkan Özellikleri&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Estetik ve Fiyat:&lt;/strong&gt; Kuşe etiketin en belirgin özelliklerinden biri estetik görünümü ve uygun fiyatıdır. Suya veya neme karşı çok dayanıklı olmamasına rağmen, iç mekanlarda veya kuru ortamlarda kullanıldığı sürece oldukça uzun ömürlüdür. Dış ortam koşullarına maruz kalmadığı sürece baskı kalitesi bozulmaz.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Kullanım Alanları:&lt;/strong&gt; Kullanım alanı oldukça geniştir. Gıda ürünlerinde, kozmetik ambalajlarında, lojistik sektöründe, depo etiketlemelerinde ve genel ürün tanıtımlarında sıkça tercih edilir. Hem maliyet açısından avantajlı olması hem de profesyonel bir görünüm sunması nedeniyle birçok üretici ve marka için ideal bir seçenektir.&lt;/p&gt;&lt;h3&gt;">
+        <img src="resimler/Kuse.jpg" alt="Kuşe Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Kuşe Etiket</h2>
+          <p class="card-text">Pürüzsüz yüzeyi sayesinde canlı renkler ve keskin detaylarla yüksek kalitede baskı imkânı
+            sunan kağıt bazlı bir etiket çeşididir.</p>
+        </div>
+      </article>
+
+      <article class="card card-pp" data-title="PE (Polietilen) ve PP (Polipropilen) Etiketler"
+        data-img="resimler/PPOpak.webp"
+        data-desc="&lt;p&gt;PE (Polietilen) ve PP (Polipropilen), plastik bazlı etiket pazarında en çok tercih edilen iki dayanıklı malzemedir. Her ikisi de suya, neme, yağa ve kimyasallara karşı mükemmel koruma sağlar. Bu özellikleri sayesinde özellikle uzun ömürlü ve zorlu koşullarda kullanılacak ürünler için idealdirler.&lt;/p&gt;&lt;h3&gt;Malzeme Farklılıkları: Hangisi Ne Zaman Kullanılır?&lt;/h3&gt;&lt;p&gt;Temel farkları esneklik seviyeleridir:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;PP (Polipropilen):&lt;/strong&gt; Daha sert, daha dayanıklı ve ısıya karşı daha dirençli bir malzemedir. Yüzeyi daha pürüzsüzdür, bu da baskı kalitesini artırır. Genellikle &lt;strong&gt;sert ve düz yüzeyler&lt;/strong&gt; (cam şişeler, metal kutular, sert plastik ambalajlar) için tercih edilir.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;PE (Polietilen):&lt;/strong&gt; Daha yumuşak ve esnek bir yapıdadır. Bu özelliği sayesinde &lt;strong&gt;sıkılabilir veya esnek ambalajlar&lt;/strong&gt; (şampuan şişeleri, krem tüpleri, deterjan kutuları) için idealdir. Ambalaj sıkıldığında etiket de esner ve bozulmaz.&lt;/p&gt;&lt;h3&gt;Yüzey Seçenekleri ve Baskı&lt;/h3&gt;&lt;p&gt;Her iki malzeme de &lt;strong&gt;Opak (beyaz), Şeffaf (Clear)&lt;/strong&gt; ve &lt;strong&gt;Mat&lt;/strong&gt; yüzey seçenekleri sunar. Beyaz olanlar canlı baskı verirken, şeffaf olanlar ürüne şık bir 'etiketsiz görünüm' kazandırır.&lt;/p&gt;&lt;p&gt;Genellikle termal transfer veya UV baskı yöntemiyle kullanılırlar. Bu sayede baskı kalitesi uzun süre korunur ve barkodlar kolayca okunur. Dayanıklılıkları nedeniyle kozmetik, kimya, gıda ve dış mekân ürünlerinde en çok tercih edilen etiket türleridir.&lt;/p&gt;">
+        <img src="resimler/PPOpak.webp" alt="PE ve PP Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">PE ve PP Etiketler</h2>
+          <p class="card-text">Esnek (PE) veya sert (PP) ambalajlar için dayanıklı, suya dirençli plastik etiket
+            çözümleri.</p>
+        </div>
+      </article>
+
+
+      <article class="card card-metalize" data-title="Metalize Etiketler" data-img="resimler/PPvePE.jpg"
+        data-desc="&lt;p&gt;Metalize etiketler, plastik bazlı (genellikle PP veya PE) film üzerine ince bir alüminyum tabakası kaplanarak üretilir. Bu özel üretim yöntemi sayesinde etiket yüzeyi gümüş, altın veya metalik tonlarda parlak ve yansıtıcı bir görünüm kazanır. Bu parlak efekt, ürüne hem modern hem de lüks bir hava katar.&lt;/p&gt;&lt;h3&gt;Temel Malzeme Farklılıkları (PP vs PE)&lt;/h3&gt;&lt;p&gt;Her iki malzeme de dayanıklı olsa da, kullanım alanlarını etkileyen temel farkları vardır:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;PP (Polipropilen):&lt;/strong&gt; Daha sert, daha dayanıklı ve ısıya karşı daha dirençli bir malzemedir. Yüzeyi daha pürüzsüzdür, bu da baskı kalitesini artırır. Genellikle sert ve düz yüzeyler için tercih edilir.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;PE (Polietilen):&lt;/strong&gt; Daha yumuşak ve esnek bir yapıdadır. Bu özelliği sayesinde şampuan şişeleri gibi sıkılabilir veya esnek ambalajlar için idealdir. PP'ye göre dış koşullara karşı biraz daha az dayanıklı olabilir.&lt;/p&gt;&lt;h3&gt;Kullanım Alanları ve Avantajları&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Görsel Çekicilik:&lt;/strong&gt; Görsel çekiciliği yüksek olduğu için kozmetik, elektronik, lüks içecek ve premium gıda ambalajlarında sıkça tercih edilir. Parlak metalik yüzey, ürünün rafta dikkat çekmesini ve markanın kalite algısını güçlendirmesini sağlar.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Yüksek Dayanıklılık:&lt;/strong&gt; Metalize etiketler sadece estetik açıdan değil, dayanıklılık bakımından da avantajlıdır. Plastik tabanlı yapısı sayesinde suya, neme ve dış etkilere karşı dirençlidir. Baskı genellikle termal transfer veya UV baskı teknikleriyle yapılır; bu sayede baskı uzun süre bozulmadan kalır.&lt;/p&gt;&lt;p&gt;Sonuç olarak metalize etiketler, lüks görünüm ve dayanıklılığı bir araya getiren, dikkat çekici ve profesyonel bir etiket çözümüdür.&lt;/p&gt;">
+        <img src="resimler/PPvePE.jpg" alt="Metalize Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Metalize Etiketler</h2>
+          <p class="card-text">PE Metalize ve PP Metalize çeşitleriyle parlak, yansıtıcı yüzey sunar.</p>
+        </div>
+      </article>
+
+      <article class="card card-termal" data-title="Termal Etiketler" data-img="resimler/LamineTermal.jpg"
+        data-desc="&lt;p&gt;Termal etiketler, yüzeyinde ısıya duyarlı özel bir katman bulunan kağıt bazlı etiketlerdir. Baskı işlemi sırasında termal yazıcı kafası bu yüzeye ısı uygular ve ısının temas ettiği noktalar karararak baskı oluşur. Bu nedenle ribon (mürekkep şeridi) kullanılmaz; bu da baskıyı hem daha hızlı hem de ekonomik hale getirir.&lt;/p&gt;&lt;h3&gt;Termal etiketlerin iki ana türü vardır:&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Eko Termal Etiketler:&lt;/strong&gt; Eko termal etiketler daha hassas yapıdadır ve kısa süreli kullanımlar için idealdir. Özellikle market, kargo ve lojistik etiketlerinde yaygın şekilde tercih edilir. Ancak zamanla ısı, ışık veya sürtünme gibi etkenlerle baskı solabilir.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lamine Termal Etiketler:&lt;/strong&gt; Lamine termal etiketler ise yüzeyinde koruyucu bir şeffaf katman barındırır. Bu sayede neme, ışığa ve dış etkilere karşı çok daha dayanıklıdır. Eko termale göre daha uzun ömürlüdür ve orta vadeli etiketleme ihtiyaçlarında tercih edilir.&lt;/p&gt;&lt;p&gt;Sonuç olarak termal etiketler, hızlı baskı, düşük maliyet ve pratik kullanım avantajlarıyla özellikle perakende ve taşımacılık sektörlerinde vazgeçilmez bir çözümdür.&lt;/p&gt;">
+        <img src="resimler/LamineTermal.jpg" alt="Termal Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Termal Etiketler</h2>
+          <p class="card-text">Eko Termal, Lamine Termal ve PP Termal seçenekleriyle yüksek baskı kalitesi sağlar.</p>
+        </div>
+      </article>
+
+      <article class="card card-vellum" data-title="Vellum Etiketler" data-img="resimler/Vellum.jpg"
+        data-desc="&lt;p&gt;Vellum etiketler, yüzeyi kuşe etikete göre daha &lt;strong&gt;mat ve hafif pürüzlü&lt;/strong&gt; olan, kaplamasız kağıt bazlı etiketlerdir. Bu yapısı sayesinde yüzey daha emici hale gelir ve baskı sırasında mürekkebi mükemmel şekilde tutar.&lt;/p&gt;&lt;p&gt;Bu özellik, termal transfer (ribonlu) baskı yöntemiyle kullanıldığında net, kalıcı ve dağılmayan bir baskı elde edilmesini sağlar.&lt;/p&gt;&lt;h3&gt;Özellikleri ve Kullanım Alanları&lt;/h3&gt;&lt;p&gt;Vellum etiketlerin yüzeyinde herhangi bir parlak kaplama bulunmadığından, &lt;strong&gt;daha sade ve doğal bir görünüm&lt;/strong&gt; sunar. Bu da onu, estetikten ziyade bilgi aktarımının önemli olduğu uygulamalarda ideal hale getirir.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Başlıca Kullanım Alanları:&lt;/strong&gt; Özellikle koli üzeri bilgi etiketleri, depo etiketleri, lojistik ve barkod uygulamalarında sıkça tercih edilir.&lt;/p&gt;&lt;h3&gt;Avantajları ve Sınırlamaları&lt;/h3&gt;&lt;p&gt;Kuşe etikete göre &lt;strong&gt;maliyeti daha uygundur&lt;/strong&gt; ve baskı dayanıklılığı yüksek olduğundan, uzun süre okunabilirliğini korur.&lt;/p&gt;&lt;p&gt;Ancak, &lt;strong&gt;suya ve dış ortam koşullarına karşı dayanıklı değildir&lt;/strong&gt;, bu yüzden kapalı alan kullanımları için önerilir.&lt;/p&gt;&lt;h3&gt;">
+        <img src="resimler/Vellum.jpg" alt="Vellum Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Vellum Etiketler</h2>
+          <p class="card-text">Mürekkep emilimi yüksek, yazıcı dostu kağıt bazlı etiket türüdür.</p>
+        </div>
+      </article>
+
+      <article class="card card-clear" data-title="Clear (Şeffaf) Etiketler" data-img="resimler/Clear.webp"
+        data-desc="&lt;p&gt;Clear etiketler, tamamen şeffaf plastik filmden (genellikle PP veya PE) üretilen etiket türleridir. Bu yapı sayesinde etiketi ürünün üzerine yapıştırdığında, sanki baskı doğrudan ambalajın yüzeyine yapılmış gibi bir &lt;strong&gt;“etiketsiz görünüm” (no-label look)&lt;/strong&gt; elde edilir.&lt;/p&gt;&lt;p&gt;Bu etki, özellikle ürünün tasarımını gizlemeden marka bilgisini göstermeyi amaçlayan uygulamalarda büyük avantaj sağlar.&lt;/p&gt;&lt;h3&gt;Estetik Görünüm ve Kullanım Alanları&lt;/h3&gt;&lt;p&gt;Şeffaf yapısı sayesinde ürünün rengi, dokusu ve içeriği ön planda kalır. Bu da ürüne modern, sade ve zarif bir görünüm kazandırır.&lt;/p&gt;&lt;p&gt;Özellikle &lt;strong&gt;içecek şişeleri, cam kavanozlar, şeffaf kozmetik ambalajları&lt;/strong&gt; ve kişisel bakım ürünlerinde estetik bir sunum oluşturmak için tercih edilir.&lt;/p&gt;&lt;h3&gt;Dayanıklılık ve Baskı Kalitesi&lt;/h3&gt;&lt;p&gt;Clear etiketler genellikle UV veya termal transfer baskı teknikleriyle kullanılır ve uygun yapışkan türüyle birleştirildiğinde cam, plastik veya metal yüzeylere güçlü bir şekilde tutunur. &lt;strong&gt;Suya, neme ve dış etkenlere karşı da oldukça dayanıklıdır.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Clear (Şeffaf) etiketler, ürünü öne çıkaran, görünmez ama etkileyici bir etiket çözümüdür. Şıklık ve kalite algısını artırmak isteyen markalar için ideal bir tercihtir.&lt;/p&gt;">
+        <img src="resimler/Clear.webp" alt="Clear Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Clear Etiketler</h2>
+          <p class="card-text">Ürünün yüzeyini gizlemeden şık ve modern bir görünüm sağlar.</p>
+        </div>
+      </article>
+
+      <article class="card card-sarap" data-title="Şarap Etiketleri" data-img="resimler/Sarap.jpeg"
+        data-desc="&lt;p&gt;Şarap etiketleri, özellikle şarap ve diğer premium içecekler için geliştirilmiş özel etiketlerdir. Bu etiketler, özel olarak seçilmiş kağıt ve malzemelerden üretilir ve &lt;strong&gt;suya, neme ve buz kovası gibi soğutma koşullarına karşı dayanıklılık&lt;/strong&gt; gösterir. Böylece ürün, serinletme veya taşıma sırasında etiket zarar görmez ve estetik görünüm korunur.&lt;/p&gt;&lt;h3&gt;Tasarım ve Doku&lt;/h3&gt;&lt;p&gt;Şarap etiketleri genellikle &lt;strong&gt;fantezi, dokulu (texture) veya desenli yüzeylere&lt;/strong&gt; sahiptir. Bu yüzeyler, etiketin dokunma hissini ve görsel algısını zenginleştirir, ürüne lüks ve prestijli bir hava katar. Etiket tasarımı, markanın kimliğini ve ürünün kalitesini yansıtacak şekilde özenle hazırlanır ve tüketici üzerinde güçlü bir ilk izlenim bırakır.&lt;/p&gt;&lt;h3&gt;Baskı Yöntemleri&lt;/h3&gt;&lt;p&gt;Baskı yöntemleri genellikle UV, termal transfer veya özel ofset baskı teknikleri kullanılarak uygulanır. Bu sayede renkler canlı, detaylar keskin ve yüzey dokusu bozulmadan korunur.&lt;/p&gt;&lt;h3&gt;">
+        <img src="resimler/Sarap.jpeg" alt="Şarap Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Şarap Etiketleri</h2>
+          <p class="card-text">Premium şarap şişeleri için özel dokulu, suya dayanıklı etiketlerdir.</p>
+        </div>
+      </article>
+
+      <article class="card card-silver" data-title="Silver Mat Etiketler" data-img="resimler/SilverMat.jpg"
+        data-desc="&lt;p&gt;Silver Mat etiketler, genellikle polyester (PET) malzemeden üretilir ve gümüş renginde, mat ve metalik görünümlü bir yüzeye sahiptir. Bu özellikleri sayesinde estetik bir görünüm sunarken, aynı zamanda son derece dayanıklı bir etiket çözümü sağlar.&lt;/p&gt;&lt;h3&gt;Yüksek Dayanıklılık ve Direnç&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Yüksek ısı, kimyasallar, sürtünme ve dış hava koşullarına karşı mükemmel direnç gösterir.&lt;/strong&gt; Bu nedenle uzun ömürlüdür ve zorlu endüstriyel koşullarda güvenle kullanılabilir. Dayanıklılığı nedeniyle bazen “demirbaş etiketi” olarak da adlandırılır.&lt;/p&gt;&lt;h3&gt;Kullanım Alanları&lt;/h3&gt;&lt;p&gt;Kullanım alanları çoğunlukla elektronik cihazların bilgi etiketleri, makine panelleri, endüstriyel ürünler ve cihazların kalıcı markalanmasıdır. Mat metalik yüzeyi sayesinde hem profesyonel hem de modern bir görünüm sunar.&lt;/p&gt;&lt;h3&gt;">
+        <img src="resimler/SilverMat.jpg" alt="Silver Mat Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Silver Mat Etiketleri</h2>
+          <p class="card-text">Metalik mat yüzeyiyle dayanıklı ve modern görünümlü etiket çeşididir.</p>
+        </div>
+      </article>
+
+      <article class="card card-data" data-title="Data Etiket" data-img="resimler/Data.jpg"
+        data-desc="&lt;p&gt;Data etiketler, özellikle &lt;strong&gt;değişken bilgilerin (barkod, seri numarası, son kullanma tarihi, ağırlık vb.)&lt;/strong&gt; basılması için tasarlanmış özel etiketlerdir. Malzeme seçimi, kullanım amacına göre değişir; kağıt bazlı, termal, vellum veya plastik (PP/PE) tabanlı malzemeler kullanılabilir.&lt;/p&gt;&lt;h3&gt;Baskı Kalitesi ve Dayanıklılık&lt;/h3&gt;&lt;p&gt;Bu etiketlerin temel amacı, baskının net, okunabilir ve uzun süre kalıcı olmasını sağlamaktır. Termal transfer veya UV baskı teknikleri ile üretildiklerinde, barkodlar ve yazılar uzun süre silinmeden ve bozulmadan korunur.&lt;/p&gt;&lt;h3&gt;Kullanım Alanları&lt;/h3&gt;&lt;p&gt;Data etiketler, &lt;strong&gt;lojistik, üretim, perakende, envanter ve depo yönetimi&lt;/strong&gt; gibi alanlarda yaygın olarak kullanılır. Ürünlerin takibi, stok kontrolü ve izlenebilirliğinin sağlanmasında vazgeçilmez bir araçtır.&lt;/p&gt;&lt;h3&gt;">
+        <img src="resimler/Data.jpg" alt="Data Etiket" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title">Data Etiket</h2>
+          <p class="card-text">Barkod, seri numarası ve değişken veri baskıları için uygundur.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close-button">&times;</span>
+      <div class="modal-body">
+        <div class="modal-img">
+          <img src="" alt="" id="modal-img">
+        </div>
+        <div class="modal-text">
+          <h2 id="modal-title"></h2>
+          <p id="modal-desc"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const modal = document.getElementById('product-modal');
+    const modalCloseButton = document.getElementById('modal-close-button');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const body = document.body;
+
+    const openModal = (title, imgSrc, desc) => {
+      modalTitle.textContent = title;
+      modalImg.src = imgSrc;
+      modalImg.alt = title;
+      modalDesc.innerHTML = desc;
+
+      modal.classList.add('is-visible');
+      body.classList.add('modal-open');
+    };
+
+    const closeModal = () => {
+      modal.classList.remove('is-visible');
+      body.classList.remove('modal-open');
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.dataset.title;
+        const imgSrc = card.dataset.img;
+        const desc = card.dataset.desc;
+
+        openModal(title, imgSrc, desc);
+      });
+    });
+
+    modalCloseButton.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainMenu = document.querySelector('.main-menu');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        if (mainMenu) mainMenu.classList.toggle('is-open');
+      });
+    }
+  </script>
+
+</body>
+
+</html>
